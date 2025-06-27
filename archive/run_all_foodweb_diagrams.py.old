@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Consolidated script to run all food web diagram implementations (R and Python)
+This script runs both the R and Python implementations of the food web diagram
+and saves the output images with clear naming conventions.
+"""
+
+import os
+import sys
+import subprocess
+import platform
+import time
+
+def print_header(message):
+    """Print a formatted header message."""
+    print("\n" + "=" * 80)
+    print(f" {message}")
+    print("=" * 80)
+
+def check_r_installation():
+    """Check if R is installed and return the path to the R executable."""
+    # Default R paths for different operating systems
+    if platform.system() == "Windows":
+        # Use the user-specified R path - ensure this is the correct path
+        r_path = "C:\\Users\\FrymanK\\Documents\\R-4.5.1\\bin\\x64\\R.exe"
+        if not os.path.exists(r_path):
+            print(f"Warning: R executable not found at {r_path}")
+            print("Please make sure R is installed and the path is correct.")
+            return None
+    elif platform.system() == "Darwin":  # macOS
+        r_path = "R"  # Use R from PATH
+    else:  # Linux and others
+        r_path = "R"  # Use R from PATH
+    
+    # Test if R is working
+    try:
+        subprocess.run([r_path, "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return r_path
+    except (subprocess.SubprocessError, FileNotFoundError):
+        print("Warning: R is not installed or not in the system PATH.")
+        print("Please make sure R is installed and accessible.")
+        return None
+
+def run_r_script(r_path, script_path):
+    """Run an R script using the specified R executable."""
+    if r_path is None:
+        print(f"Skipping R script: {script_path} (R not available)")
+        return False
+    
+    # Check if script_path contains arguments
+    script_parts = script_path.split()
+    script_file = script_parts[0]
+    script_args = script_parts[1:] if len(script_parts) > 1 else []
+    
+    print(f"Running R script: {script_file}" +
+          (f" with args: {' '.join(script_args)}" if script_args else ""))
+    
+    try:
+        if script_args:
+            # Run R script with arguments
+            cmd = [r_path, "--vanilla", script_file] + script_args
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+        else:
+            # Run R script without arguments (traditional way)
+            process = subprocess.Popen(
+                [r_path, "CMD", "BATCH", "--vanilla", script_file],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
+            )
+        
+        # Wait for the process to complete
+        return_code = process.wait()
+        
+        # Get the output
+        stdout, stderr = process.communicate()
+        if stdout:
+            print(stdout)
+        if stderr:
+            print(f"Errors: {stderr}")
+        
+        if return_code == 0:
+            print(f"R script completed successfully: {script_file}")
+            return True
+        else:
+            print(f"Error running R script: {script_file} (return code: {return_code})")
+            return False
+    except Exception as e:
+        print(f"Error running R script: {script_file}")
+        print(f"Exception: {e}")
+        return False
+
+def run_python_script(script_path):
+    """Run a Python script."""
+    print(f"Running Python script: {script_path}")
+    try:
+        # Run the Python script
+        process = subprocess.Popen(
+            [sys.executable, script_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        
+        # Wait for the process to complete
+        return_code = process.wait()
+        
+        # Get the output
+        stdout, stderr = process.communicate()
+        print(stdout)
+        if stderr:
+            print(f"Errors: {stderr}")
+        
+        if return_code == 0:
+            print(f"Python script completed successfully: {script_path}")
+            return True
+        else:
+            print(f"Error running Python script: {script_path} (return code: {return_code})")
+            return False
+    except Exception as e:
+        print(f"Error running Python script: {script_path}")
+        print(f"Exception: {e}")
+        return False
+
+def main():
+    """Main function to run all food web diagram implementations."""
+    print_header("Hauraki Gulf Food Web Diagram - All Implementations")
+    
+    # Create images directory if it doesn't exist
+    images_dir = "images"
+    if not os.path.exists(images_dir):
+        os.makedirs(images_dir)
+        print(f"Created {images_dir} directory for output files")
+    
+    # Check if R is installed
+    r_path = check_r_installation()
+    
+    # List of scripts to run
+    r_scripts = [
+        "R_implementation/run_foodweb_diagram.R"
+    ]
+    
+    python_scripts = [
+        "Python_implementation/run_foodweb_diagram.py"
+    ]
+    
+    # Check if the scripts exist
+    for script in r_scripts + python_scripts:
+        if not os.path.exists(script):
+            print(f"Warning: Script not found: {script}")
+    
+    # Run R scripts
+    print_header("Running R Implementations")
+    r_success = []
+    for script in r_scripts:
+        # Add --all flag to generate all color variants
+        # For R scripts, we need to modify how we call them to include the --all flag
+        script_with_args = f"{script} --all"
+        success = run_r_script(r_path, script_with_args)
+        r_success.append(success)
+        if success:
+            print(f"Successfully ran {script}")
+        else:
+            print(f"Failed to run {script}")
+        print("-" * 40)
+    
+    # Run Python scripts
+    print_header("Running Python Implementations")
+    py_success = []
+    for script in python_scripts:
+        # Add --all flag to generate all color variants
+        success = run_python_script(script + " --all")
+        py_success.append(success)
+        if success:
+            print(f"Successfully ran {script}")
+        else:
+            print(f"Failed to run {script}")
+        print("-" * 40)
+    
+    # Print summary
+    print_header("Summary")
+    print("R Implementations:")
+    for i, script in enumerate(r_scripts):
+        status = "SUCCESS" if r_success[i] else "FAILED"
+        print(f"  - {script}: {status}")
+    
+    print("\nPython Implementations:")
+    for i, script in enumerate(python_scripts):
+        status = "SUCCESS" if py_success[i] else "FAILED"
+        print(f"  - {script}: {status}")
+    
+    # Check if any images were created
+    print("\nOutput Images:")
+    if os.path.exists(images_dir):
+        image_files = [f for f in os.listdir(images_dir) if f.endswith('.png')]
+        if image_files:
+            for image in sorted(image_files):
+                print(f"  - {os.path.join(images_dir, image)}")
+        else:
+            print("  No image files found in the images directory.")
+    else:
+        print("  Images directory not found.")
+    
+    print("\nDone!")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodweb Diagram Comparison</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        h2 {
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .intro {
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+        
+        .image-section {
+            margin-bottom: 40px;
+        }
+        
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .image-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            max-width: 100%;
+            background-color: white;
+            cursor: pointer; /* Add pointer cursor to indicate clickable */
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-card img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .image-caption {
+            padding: 15px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .image-caption h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+        }
+        
+        .image-caption p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .type-section {
+            margin-top: 50px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .timestamp {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        
+        /* Modal/Lightbox styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            animation: zoom 0.3s ease;
+        }
+        
+        @keyframes zoom {
+            from {transform: scale(0.1)}
+            to {transform: scale(1)}
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: white;
+            padding: 10px 0;
+            height: 150px;
+        }
+        
+        @media (max-width: 768px) {
+            .image-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .image-card {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Foodweb Diagram Comparison</h1>
+        
+        <div class="timestamp">
+            Last updated: <span id="timestamp"></span>
+        </div>
+        
+        <div class="intro">
+            <p>This document presents a comparison of foodweb diagrams implemented in three different programming languages: IDL (original), R, and Python. These visualizations represent the same ecological data but with different implementation approaches and visual styles.</p>
+        </div>
+        
+        <h2>Original IDL Implementation</h2>
+        <div class="image-section">
+            <p>The original foodweb diagram was created using IDL (Interactive Data Language), a programming language commonly used in scientific research for data visualization.</p>
+            <div class="image-container">
+                <div class="image-card">
+                    <img src="HG04_present_0p18-0p40_diagram.png" alt="Original IDL Foodweb Diagram">
+                    <div class="image-caption">
+                        <h3>Original IDL Diagram</h3>
+                        <p>The reference implementation created in IDL</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Implementation Comparison</h2>
+        
+        <div class="type-section">
+            <h3>Functional Group Visualization</h3>
+            <p>These diagrams organize species by their functional groups within the ecosystem.</p>
+            <div class="comparison-grid">
+                <div class="image-card">
+                    <img src="HG04_present_0p18-0p40_diagram.png" alt="IDL Functional Group Diagram">
+                    <div class="image-caption">
+                        <h3>IDL (Original)</h3>
+                        <p>Functional group visualization</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="images/R-functional.png" alt="R Functional Group Diagram">
+                    <div class="image-caption">
+                        <h3>R Implementation</h3>
+                        <p>Functional group visualization</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="images/Python-diagram-functional.png" alt="Python Functional Group Diagram">
+                    <div class="image-caption">
+                        <h3>Python Implementation</h3>
+                        <p>Functional group visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="type-section">
+            <h3>Habitat-based Visualization</h3>
+            <p>These diagrams organize species by their habitat within the ecosystem.</p>
+            <div class="comparison-grid">
+                <div class="image-card">
+                    <img src="HG04_present_0p18-0p40_diagram.png" alt="IDL Habitat Diagram">
+                    <div class="image-caption">
+                        <h3>IDL (Original)</h3>
+                        <p>Habitat-based visualization</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="images/R-habitat.png" alt="R Habitat Diagram">
+                    <div class="image-caption">
+                        <h3>R Implementation</h3>
+                        <p>Habitat-based visualization</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="images/Python-diagram-habitat.png" alt="Python Habitat Diagram">
+                    <div class="image-caption">
+                        <h3>Python Implementation</h3>
+                        <p>Habitat-based visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="type-section">
+            <h3>Trophic Level Visualization</h3>
+            <p>These diagrams organize species by their trophic level within the food web.</p>
+            <div class="comparison-grid">
+                <div class="image-card">
+                    <img src="HG04_present_0p18-0p40_diagram.png" alt="IDL Trophic Level Diagram">
+                    <div class="image-caption">
+                        <h3>IDL (Original)</h3>
+                        <p>Trophic level visualization</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="images/R-trophic.png" alt="R Trophic Level Diagram">
+                    <div class="image-caption">
+                        <h3>R Implementation</h3>
+                        <p>Trophic level visualization</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="images/Python-diagram-trophic.png" alt="Python Trophic Level Diagram">
+                    <div class="image-caption">
+                        <h3>Python Implementation</h3>
+                        <p>Trophic level visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="type-section">
+            <h3>Additional Python Visualization</h3>
+            <p>The Python implementation includes an additional visualization type not present in the other implementations.</p>
+            <div class="image-container">
+                <div class="image-card">
+                    <img src="images/Python-diagram-none.png" alt="Python Additional Diagram">
+                    <div class="image-caption">
+                        <h3>Python Implementation</h3>
+                        <p>No color coding visualization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created for FishMIP Workshop - Foodweb Diagram Comparison</p>
+        <p>© 2025</p>
+    </footer>
+    
+    <!-- Modal/Lightbox -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
+    
+    <script>
+        // Set the timestamp
+        document.getElementById("timestamp").textContent = new Date().toLocaleString();
+        
+        // Get the modal
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const modalCaption = document.getElementById("modalCaption");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        
+        // Get all images in image cards
+        const images = document.querySelectorAll(".image-card img");
+        
+        // Add click event to all images
+        images.forEach(img => {
+            img.addEventListener("click", function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                
+                // Get the caption from the parent image card
+                const captionElement = this.closest('.image-card').querySelector('.image-caption');
+                if (captionElement) {
+                    const title = captionElement.querySelector('h3').textContent;
+                    const description = captionElement.querySelector('p').textContent;
+                    modalCaption.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+                }
+            });
+        });
+        
+        // Close the modal when clicking the × button
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // Close the modal when clicking outside the image
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+        
+        // Close the modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && modal.style.display === "block") {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
