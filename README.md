@@ -2,6 +2,10 @@
 
 This project provides implementations of the food web diagram visualization originally created in IDL by Matt Pinkerton, reimplemented by Chelsey Beese in both R and Python using Claude 2.7. It visualises the trophic relationships between species in the Hauraki Gulf marine ecosystem.
 
+## Author Contact Information
+Matt Pinkerton  - Matt.Pinkerton@niwa.co.nz
+Chelsey Beese - beese.c.m@gmail.com
+
 ## Project Structure
 
 The project is organized into the following directories:
