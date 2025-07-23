@@ -1,6 +1,6 @@
 # Hauraki Gulf Food Web Diagram
 
-This project provides implementations of the food web diagram visualization originally created in IDL by M. Pinkerton, reimplemented in both R and Python. It visualizes the trophic relationships between species in the Hauraki Gulf marine ecosystem.
+This project provides implementations of the food web diagram visualization originally created in IDL by Matt Pinkerton, reimplemented by Chelsey Beese in both R and Python using Claude 2.7. It visualises the trophic relationships between species in the Hauraki Gulf marine ecosystem.
 
 ## Project Structure
 
